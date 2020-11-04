@@ -1,5 +1,6 @@
 package hello.tests.common
 
+import io.kotest.core.spec.style.AnnotationSpec
 import io.restassured.RestAssured
 import io.restassured.response.ResponseBodyExtractionOptions
 import io.restassured.specification.RequestSpecification
@@ -9,7 +10,7 @@ fun RequestSpecification.When(): RequestSpecification {
     return this.`when`()
 }
 
-open class Server {
+open class Server : AnnotationSpec() {
     companion object {
         @BeforeAll @JvmStatic fun setup() {
             RestAssured.baseURI = "http://localhost"

@@ -3,34 +3,40 @@ package model
 import io.github.serpro69.kfaker.Faker
 import io.github.serpro69.kfaker.FakerConfig
 import io.github.serpro69.kfaker.create
+import model.card.Brand
 
 class Charge private constructor(
         val currency: Currency?,
         val amount: Double?,
-        val billingDetails: BillingDetails?) {
+        val billingDetails: BillingDetails?,
+        val paymentMethod: PaymentMethod?) {
 
+    /**
+     * Builder helps generate a custom Charge.
+     * By default random customer details will be used with a VISA card and USD
+     */
     data class Builder(
             var currency: Currency = Currency.USD,
             var amount: Double = 100.00,
-            var billingDetails: BillingDetails? = null) {
+            var billingDetails: BillingDetails? = null,
+            var paymentMethod: PaymentMethod? = null) {
+
+        private val faker: Faker = Faker()
+
+        init {
+            customer()
+            card()
+        }
+
         fun customer() = apply {
-            val faker = Faker()
-            this.billingDetails = BillingDetails(
-                    faker.name.firstName(),
-                    faker.name.lastName()
-            )
+            this.billingDetails = BillingDetails(faker.name.firstName(), faker.name.lastName())
         }
 
         fun customer(locale: String) = apply {
-            val fakerConfig = FakerConfig.builder().create {
-                this.locale = locale
-            }
+            val fakerConfig = FakerConfig.builder().create { this.locale = locale }
+            val faker = Faker(fakerConfig)
 
-            val faker = Faker()
-            this.billingDetails = BillingDetails(
-                    faker.name.firstName(),
-                    faker.name.lastName()
-            )
+            this.billingDetails = BillingDetails(faker.name.firstName(), faker.name.lastName())
         }
 
         fun amount(amount: Double) = apply {
@@ -41,6 +47,14 @@ class Charge private constructor(
             this.currency = currency
         }
 
-        fun build() = Charge(currency, amount, billingDetails)
+        fun card() = apply {
+            this.paymentMethod = PaymentMethod(Brand.VISA, faker.stripe.validCards(Brand.VISA.code))
+        }
+
+        fun card(brand: Brand) = apply {
+            this.paymentMethod = PaymentMethod(brand, faker.stripe.validCards(brand.code))
+        }
+
+        fun build() = Charge(currency, amount, billingDetails, paymentMethod)
     }
 }

@@ -10,7 +10,6 @@ import org.assertj.core.api.Assertions.assertThat
 
 import org.junit.jupiter.api.Test
 
-
 class GenericTest : Server() {
     @Test
     fun `Payment Returns 200`() {
