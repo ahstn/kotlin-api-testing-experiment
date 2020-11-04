@@ -10,6 +10,7 @@ import io.kotest.data.forAll
 import io.kotest.data.headers
 import io.kotest.data.row
 import io.kotest.data.table
+import io.kotest.matchers.shouldBe
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import model.Charge
@@ -19,13 +20,11 @@ import model.card.Brand
 import org.assertj.core.api.Assertions.assertThat
 
 class CurrencyTest : FeatureSpec({
+    val reporter = ReportContainer.instance
     beforeTest(setup)
 
     feature("generic currencies") {
-        val extent = ExtentReports()
-        val spark = ExtentSparkReporter("target/Spark.html")
-        extent.attachReporter(spark)
-        val feature = extent.createTest("generic currencies")
+        val feature = reporter.createTest("generic currencies")
                 .assignCategory("e-commerce", "currency", "charge")
 
         table(
@@ -53,13 +52,12 @@ class CurrencyTest : FeatureSpec({
                         .extract()
                         .`as`(Response::class.java)
 
-                assertThat(response).isNotNull
-                assertThat(response.status).isEqualTo("success")
+                response.status shouldBe "success"
 
                 scenario.pass("success")
             }
 
+            reporter.flush()
         }
-        extent.flush()
     }
 })

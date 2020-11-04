@@ -21,13 +21,11 @@ import model.card.Brand
 import org.assertj.core.api.Assertions.assertThat
 
 class LocaleTest : FeatureSpec({
+    val reporter = ReportContainer.instance
     beforeTest(setup)
 
     feature("generic currencies") {
-        val extent = ExtentReports()
-        val spark = ExtentSparkReporter("target/Spark-locale.html")
-        extent.attachReporter(spark)
-        val feature = extent.createTest("generic locales")
+        val feature = reporter.createTest("generic locales")
                 .assignCategory("e-commerce", "locale", "charge")
 
         table(
@@ -58,11 +56,11 @@ class LocaleTest : FeatureSpec({
 
                 assertThat(response).isNotNull
                 assertThat(response.status).isEqualTo("success")
-
                 scenario.pass("success")
             }
 
         }
-        extent.flush()
+
+        reporter.flush()
     }
 })
