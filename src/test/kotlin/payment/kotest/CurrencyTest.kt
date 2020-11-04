@@ -1,18 +1,15 @@
-package payment
+package payment.kotest
 
 import com.aventstack.extentreports.ExtentReports
 import com.aventstack.extentreports.markuputils.CodeLanguage
-import com.aventstack.extentreports.markuputils.Markup
 import com.aventstack.extentreports.markuputils.MarkupHelper
 import com.aventstack.extentreports.reporter.ExtentSparkReporter
 import com.google.gson.Gson
-import io.kotest.core.spec.BeforeTest
 import io.kotest.core.spec.style.FeatureSpec
 import io.kotest.data.forAll
 import io.kotest.data.headers
 import io.kotest.data.row
 import io.kotest.data.table
-import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import model.Charge
@@ -20,13 +17,6 @@ import model.Currency
 import model.Response
 import model.card.Brand
 import org.assertj.core.api.Assertions.assertThat
-
-
-val setup: BeforeTest = {
-    RestAssured.baseURI = "http://localhost"
-    RestAssured.port = 3000
-    RestAssured.basePath = "/"
-}
 
 class CurrencyTest : FeatureSpec({
     beforeTest(setup)

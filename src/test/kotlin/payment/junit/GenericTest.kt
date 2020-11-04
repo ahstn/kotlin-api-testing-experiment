@@ -7,9 +7,13 @@ import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.hamcrest.CoreMatchers.equalTo
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.internal.runners.JUnit38ClassRunner
 
 import org.junit.jupiter.api.Test
+import org.junit.runner.JUnitCore
+import org.junit.runner.RunWith
 
+@RunWith(JUnit38ClassRunner::class)
 class GenericTest : Server() {
     @Test
     fun `Payment Returns 200`() {

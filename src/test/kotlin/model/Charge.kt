@@ -19,9 +19,10 @@ class Charge private constructor(
     data class Builder(
             var currency: Currency = Currency.USD,
             var amount: Double = 100.00,
-            @Transient var billingDetails: BillingDetails? = null,
+            var billingDetails: BillingDetails? = null,
             var paymentMethod: PaymentMethod? = null) {
 
+        // Transient so GSON ignores
         @Transient private val faker: Faker = Faker()
 
         init {

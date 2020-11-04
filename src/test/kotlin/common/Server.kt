@@ -10,7 +10,7 @@ fun RequestSpecification.When(): RequestSpecification {
     return this.`when`()
 }
 
-open class Server : AnnotationSpec() {
+open class Server {
     companion object {
         @BeforeAll @JvmStatic fun setup() {
             RestAssured.baseURI = "http://localhost"
