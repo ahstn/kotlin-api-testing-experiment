@@ -1,43 +1,28 @@
 package hello.tests.payment
 
 import hello.tests.common.Server
+import io.github.serpro69.kfaker.Faker
 import model.Payment
 import model.Response
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
+import model.Charge
+import model.Currency
 import org.hamcrest.CoreMatchers.equalTo
 import org.assertj.core.api.Assertions.assertThat
 
 import org.junit.jupiter.api.Test
 
 
-class GenericTest : Server() {
-    @Test
-    fun `Payment Returns 200`() {
-        given()
-            .`when`()
-            .post("/payment")
-            .then()
-            .statusCode(200)
-    }
+class CurrencyTest : Server() {
 
     @Test
-    fun `Payment returns 'status' of 'success'`()  {
-        val request = Payment("adam", "houston")
-        given()
-            .contentType(ContentType.JSON)
-            .body(request)
-            .`when`()
-            .post("/payment")
-            .then()
-            .assertThat()
-            .statusCode(200)
-            .body("status", equalTo("success"))
-    }
+    fun `Currency Happy Path`()  {
+        val request = Charge.Builder()
+                .currency(Currency.GBP)
+                .amount(120.00)
+                .customer("en-US")
 
-    @Test
-    fun `Payment JSON returns 'status' of 'success'`()  {
-        val request = Payment("adam", "houston")
         val response: Response = given()
                 .contentType(ContentType.JSON)
                 .body(request)

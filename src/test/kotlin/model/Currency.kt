@@ -1,6 +1,8 @@
-package hello.tests.util
+package model
 
 enum class Currency(val code: String) {
     USD("usd"),
-    GBP("GBP")
+    GBP("GBP"),
+    CAD("CAD"),
+    EUR("EUR")
 }

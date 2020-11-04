@@ -1,4 +1,4 @@
-package hello.tests.util
+package model
 
 data class BillingDetails(
         val forename: String,
