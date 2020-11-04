@@ -1,8 +1,11 @@
 package payment
 
 import com.aventstack.extentreports.ExtentReports
-import com.aventstack.extentreports.Status
+import com.aventstack.extentreports.markuputils.CodeLanguage
+import com.aventstack.extentreports.markuputils.Markup
+import com.aventstack.extentreports.markuputils.MarkupHelper
 import com.aventstack.extentreports.reporter.ExtentSparkReporter
+import com.google.gson.Gson
 import io.kotest.core.spec.BeforeTest
 import io.kotest.core.spec.style.FeatureSpec
 import io.kotest.data.forAll
@@ -17,7 +20,7 @@ import model.Currency
 import model.Response
 import model.card.Brand
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
+
 
 val setup: BeforeTest = {
     RestAssured.baseURI = "http://localhost"
@@ -33,11 +36,13 @@ class CurrencyTest : FeatureSpec({
         val spark = ExtentSparkReporter("target/Spark.html")
         extent.attachReporter(spark)
         val feature = extent.createTest("generic currencies")
+                .assignCategory("e-commerce", "currency", "charge")
 
         table(
                 headers("currency"),
                 row(Currency.GBP),
-                row(Currency.USD)
+                row(Currency.USD),
+                row(Currency.EUR)
         ).forAll { a ->
             scenario("${a.code} is supported") {
                 val scenario = feature.createNode("${a.code} is supported")
@@ -46,6 +51,7 @@ class CurrencyTest : FeatureSpec({
                         .amount(120.00)
                         .customer("en-US")
                         .card(Brand.VISA)
+                scenario.info(MarkupHelper.createCodeBlock(Gson().toJson(request), CodeLanguage.JSON))
 
                 val response: Response = given()
                         .contentType(ContentType.JSON)
@@ -59,6 +65,7 @@ class CurrencyTest : FeatureSpec({
 
                 assertThat(response).isNotNull
                 assertThat(response.status).isEqualTo("success")
+
                 scenario.pass("success")
             }
 

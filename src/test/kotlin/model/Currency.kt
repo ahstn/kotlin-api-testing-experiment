@@ -1,8 +1,11 @@
 package model
 
 enum class Currency(val code: String) {
-    USD("usd"),
+    USD("USD"),
     GBP("GBP"),
     CAD("CAD"),
-    EUR("EUR")
+    EUR("EUR"),
+    AUD("AUD"),
+    CHF("CHF"),
+    JPY("JPY")
 }

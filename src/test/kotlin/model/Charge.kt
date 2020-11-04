@@ -15,13 +15,14 @@ class Charge private constructor(
      * Builder helps generate a custom Charge.
      * By default random customer details will be used with a VISA card and USD
      */
+
     data class Builder(
             var currency: Currency = Currency.USD,
             var amount: Double = 100.00,
-            var billingDetails: BillingDetails? = null,
+            @Transient var billingDetails: BillingDetails? = null,
             var paymentMethod: PaymentMethod? = null) {
 
-        private val faker: Faker = Faker()
+        @Transient private val faker: Faker = Faker()
 
         init {
             customer()
