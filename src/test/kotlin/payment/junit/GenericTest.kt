@@ -1,16 +1,14 @@
 package hello.tests.payment
 
 import hello.tests.common.Server
-import model.Payment
-import model.Response
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import org.hamcrest.CoreMatchers.equalTo
+import model.Payment
+import model.Response
 import org.assertj.core.api.Assertions.assertThat
+import org.hamcrest.CoreMatchers.equalTo
 import org.junit.internal.runners.JUnit38ClassRunner
-
 import org.junit.jupiter.api.Test
-import org.junit.runner.JUnitCore
 import org.junit.runner.RunWith
 
 @RunWith(JUnit38ClassRunner::class)
@@ -25,7 +23,7 @@ class GenericTest : Server() {
     }
 
     @Test
-    fun `Payment returns 'status' of 'success'`()  {
+    fun `Payment returns 'status' of 'success'`() {
         val request = Payment("adam", "houston")
         given()
             .contentType(ContentType.JSON)
@@ -39,17 +37,17 @@ class GenericTest : Server() {
     }
 
     @Test
-    fun `Payment JSON returns 'status' of 'success'`()  {
+    fun `Payment JSON returns 'status' of 'success'`() {
         val request = Payment("adam", "houston")
         val response: Response = given()
-                .contentType(ContentType.JSON)
-                .body(request)
-                .`when`()
-                .post("/payment")
-                .then()
-                .statusCode(200)
-                .extract()
-                .`as`(Response::class.java)
+            .contentType(ContentType.JSON)
+            .body(request)
+            .`when`()
+            .post("/payment")
+            .then()
+            .statusCode(200)
+            .extract()
+            .`as`(Response::class.java)
 
         assertThat(response).isNotNull
         assertThat(response.status).isEqualTo("success")

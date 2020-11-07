@@ -6,10 +6,11 @@ import io.github.serpro69.kfaker.create
 import model.card.Brand
 
 class Charge private constructor(
-        val currency: Currency?,
-        val amount: Double?,
-        val billingDetails: BillingDetails?,
-        val paymentMethod: PaymentMethod?) {
+    val currency: Currency?,
+    val amount: Double?,
+    val billingDetails: BillingDetails?,
+    val paymentMethod: PaymentMethod?
+) {
 
     /**
      * Builder helps generate a custom Charge.
@@ -17,10 +18,11 @@ class Charge private constructor(
      */
 
     data class Builder(
-            var currency: Currency = Currency.USD,
-            var amount: Double = 100.00,
-            var billingDetails: BillingDetails? = null,
-            var paymentMethod: PaymentMethod? = null) {
+        var currency: Currency = Currency.USD,
+        var amount: Double = 100.00,
+        var billingDetails: BillingDetails? = null,
+        var paymentMethod: PaymentMethod? = null
+    ) {
 
         // Transient so GSON ignores
         @Transient private val faker: Faker = Faker()

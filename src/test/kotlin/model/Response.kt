@@ -1,6 +1,5 @@
 package model
 
-
-data class Response  (
-        val status: String
+data class Response(
+    val status: String
 )

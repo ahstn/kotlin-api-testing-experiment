@@ -13,8 +13,8 @@ val setup: BeforeTest = {
     val serverPort = Key("server.port", intType)
 
     val config = systemProperties() overriding
-            EnvironmentVariables() overriding
-            ConfigurationProperties.fromResource("defaults.properties")
+        EnvironmentVariables() overriding
+        ConfigurationProperties.fromResource("defaults.properties")
 
     RestAssured.baseURI = "${config[serverProtocol]}://${config[serverHost]}"
     RestAssured.port = config[serverPort]
